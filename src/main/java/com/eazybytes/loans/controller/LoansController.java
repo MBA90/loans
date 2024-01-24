@@ -1,12 +1,14 @@
 package com.eazybytes.loans.controller;
 
 import com.eazybytes.loans.constants.LoansConstants;
+import com.eazybytes.loans.dto.ContactDetailsDTO;
 import com.eazybytes.loans.dto.LoansDTO;
 import com.eazybytes.loans.dto.ResponseDTO;
 import com.eazybytes.loans.service.LoansService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,10 @@ public class LoansController {
 
     @Value("${build.version}")
     private String buildversion;
+
+    @Autowired
+    private ContactDetailsDTO contactDetailsDTO;
+
     public LoansController(LoansService loansService) {
         this.loansService = loansService;
     }
@@ -78,6 +84,13 @@ public class LoansController {
     @GetMapping("/build-info")
     public ResponseEntity<String> fetchAccountDetails() {
         return ResponseEntity.status(HttpStatus.OK).body(buildversion);
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<ContactDetailsDTO> getContactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(contactDetailsDTO);
     }
 
 }
